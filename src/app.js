@@ -13,7 +13,7 @@ app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use('/', (req, res, next) => {
   if (req.originalUrl === '/') {
-    res.send('Service is running!');
+    res.send('server started...');
     return;
   }
   next();

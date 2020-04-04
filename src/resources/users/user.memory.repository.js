@@ -1,6 +1,6 @@
+const userDB = require('../db/userrDB');
 const getAll = async () => {
-  // TODO: mock implementation. should be replaced during task development
-  return [];
+  return userDB.userDB;
 };
 
 module.exports = { getAll };
