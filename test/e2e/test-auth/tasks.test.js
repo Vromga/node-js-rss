@@ -1,7 +1,7 @@
 const { request, routes } = require('../lib');
 
 const TEST_TASK_DATA = {
-  title: 'Autotest tasks',
+  title: 'Autotest task',
   order: 0,
   description: 'Lorem ipsum',
   userId: null,

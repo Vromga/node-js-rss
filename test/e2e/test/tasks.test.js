@@ -6,7 +6,7 @@ const {
 } = require('../utils');
 
 const TEST_TASK_DATA = {
-  title: 'Autotest tasks',
+  title: 'Autotest task',
   order: 0,
   description: 'Lorem ipsum',
   userId: null,
@@ -65,7 +65,7 @@ describe('Tasks suite', () => {
         });
     });
 
-    it('should get a tasks by id', async () => {
+    it('should get a task by id', async () => {
       // Setup
       let expectedTask;
 
@@ -91,7 +91,9 @@ describe('Tasks suite', () => {
   });
 
   describe('POST', () => {
-    it('should create tasks successfully', async () => {
+    it('should create task successfully', async () => {
+      let taskId;
+
       await request
         .post(routes.tasks.create(testBoardId))
         .set('Accept', 'application/json')
@@ -100,16 +102,20 @@ describe('Tasks suite', () => {
         .expect('Content-Type', /json/)
         .then(res => {
           expect(res.body.id).to.be.a('string');
+          taskId = res.body.id;
           jestExpect(res.body).toMatchObject({
             ...TEST_TASK_DATA,
             boardId: testBoardId
           });
         });
+
+      // Teardown
+      await request.delete(routes.tasks.delete(testBoardId, taskId));
     });
   });
 
   describe('PUT', () => {
-    it('should update tasks successfully', async () => {
+    it('should update task successfully', async () => {
       // Setup
       let addedTask;
 
@@ -123,7 +129,7 @@ describe('Tasks suite', () => {
 
       const updatedTask = {
         ...addedTask,
-        title: 'Autotest updated tasks'
+        title: 'Autotest updated task'
       };
 
       // Test
@@ -144,7 +150,7 @@ describe('Tasks suite', () => {
   });
 
   describe('DELETE', () => {
-    it('should delete tasks successfully', async () => {
+    it('should delete task successfully', async () => {
       await request
         .get(routes.tasks.getById(testBoardId, testTaskId))
         .expect(200);
