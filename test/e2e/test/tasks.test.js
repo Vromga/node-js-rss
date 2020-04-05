@@ -6,7 +6,7 @@ const {
 } = require('../utils');
 
 const TEST_TASK_DATA = {
-  title: 'Autotest task',
+  title: 'Autotest tasks',
   order: 0,
   description: 'Lorem ipsum',
   userId: null,
@@ -65,7 +65,7 @@ describe('Tasks suite', () => {
         });
     });
 
-    it('should get a task by id', async () => {
+    it('should get a tasks by id', async () => {
       // Setup
       let expectedTask;
 
@@ -91,7 +91,7 @@ describe('Tasks suite', () => {
   });
 
   describe('POST', () => {
-    it('should create task successfully', async () => {
+    it('should create tasks successfully', async () => {
       await request
         .post(routes.tasks.create(testBoardId))
         .set('Accept', 'application/json')
@@ -109,7 +109,7 @@ describe('Tasks suite', () => {
   });
 
   describe('PUT', () => {
-    it('should update task successfully', async () => {
+    it('should update tasks successfully', async () => {
       // Setup
       let addedTask;
 
@@ -123,7 +123,7 @@ describe('Tasks suite', () => {
 
       const updatedTask = {
         ...addedTask,
-        title: 'Autotest updated task'
+        title: 'Autotest updated tasks'
       };
 
       // Test
@@ -144,7 +144,7 @@ describe('Tasks suite', () => {
   });
 
   describe('DELETE', () => {
-    it('should delete task successfully', async () => {
+    it('should delete tasks successfully', async () => {
       await request
         .get(routes.tasks.getById(testBoardId, testTaskId))
         .expect(200);

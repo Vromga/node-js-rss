@@ -361,8 +361,8 @@ paths:
     post:
       tags:
         - Tasks
-      summary: Create new task
-      description: Creates a new task
+      summary: Create new tasks
+      description: Creates a new tasks
       requestBody:
         required: true
         content:
@@ -373,15 +373,15 @@ paths:
               properties:
                 title:
                   type: string
-                  description: The task's title
+                  description: The tasks's title
                 order:
                   type: integer
-                  description: The task's order
+                  description: The tasks's order
                 description:
                   type: string
                 userId:
                   type: string
-                  description: The task's Assignee
+                  description: The tasks's Assignee
                 boardId:
                   type: string
                   description: Board ID
@@ -395,7 +395,7 @@ paths:
                 - columnId
       responses:
         200:
-          description: The task has been created.
+          description: The tasks has been created.
           content:
             application/json:
               schema:
@@ -420,7 +420,7 @@ paths:
       tags:
         - Tasks
       summary: Get Task by boardId and taskId
-      description: Gets the Task by the Board's and task ID
+      description: Gets the Task by the Board's and tasks ID
         (e.g. “/board/1/tasks/123”)
       responses:
         200:
@@ -446,18 +446,18 @@ paths:
               properties:
                 id:
                   type: string
-                  title: The task's ID
+                  title: The tasks's ID
                 title:
                   type: string
-                  description: The task's title
+                  description: The tasks's title
                 order:
                   type: integer
-                  description: The task's order
+                  description: The tasks's order
                 description:
                   type: string
                 userId:
                   type: string
-                  description: The task's Assignee
+                  description: The tasks's Assignee
                 boardId:
                   type: string
                   description: Board ID
@@ -471,7 +471,7 @@ paths:
                 - columnId
       responses:
         200:
-          description: The task has been updated.
+          description: The tasks has been updated.
           content:
             application/json:
               schema:
@@ -489,7 +489,7 @@ paths:
       description: Deletes Task by ID.
       responses:
         204:
-          description: The task has been deleted
+          description: The tasks has been deleted
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
