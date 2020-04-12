@@ -2,9 +2,12 @@ const express = require('express');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const YAML = require('yamljs');
+const logger = require('./common/logger');
+const { handleErrors, notFoundError } = require('./common/errorHandler');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
+const parser = require('./common/parser');
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -21,8 +24,29 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  const str = parser(req.url, req.query, req.body);
+  logger.info(str);
+  next();
+});
+
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
+
+app.use(notFoundError);
+app.use(handleErrors);
+
+process.on('uncaughtException', error => {
+  const message = `[message:] Error captured: ${error.message}`;
+  logger.error(message);
+  // eslint-disable-next-line no-process-exit
+  process.exit(1);
+});
+
+process.on('unhandledRejection', reason => {
+  const message = `[message:] Unhandled rejection detected: ${reason.message}`;
+  logger.error(message);
+});
 
 module.exports = app;
