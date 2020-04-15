@@ -8,14 +8,15 @@ router
   .get(
     catchError(async (req, res) => {
       const tasks = await tasksService.getAllTasks();
-      await res.json(tasks);
+      await res.status(200).json(tasks);
     })
   )
   .post(
     catchError(async (req, res) => {
-      const task = new Task({ ...req.body, boardId: req.params.boardId });
-      await tasksService.createTask(task);
-      await res.json(task);
+      const task = await tasksService.createTask(
+        new Task({ ...req.body, boardId: req.params.boardId })
+      );
+      await res.json(Task.toResponse(task));
     })
   );
 
@@ -27,14 +28,18 @@ router
       if (!task) {
         res.status(404).json({ message: 'Task not found' });
       } else {
-        await res.json(task);
+        await res.status(200).json(Task.toResponse(task));
       }
     })
   )
   .delete(
     catchError(async (req, res) => {
-      await tasksService.deleteTaskById(req.params.id);
-      await res.json({ message: 'Task has been deleted' });
+      const statusDelete = await tasksService.deleteTaskById(req.params.id);
+      if (statusDelete) {
+        await res.json({ message: 'Task has been deleted' });
+      } else {
+        await res.json({ message: 'Task not find' });
+      }
     })
   )
   .put(

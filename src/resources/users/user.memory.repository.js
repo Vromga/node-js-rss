@@ -9,8 +9,6 @@ const getById = async id => {
 };
 
 const update = async userToUpdate => {
-  // const idx = users.findIndex(user => user.id === id);
-  // users[idx] = { ...users[idx], ...body };
   return User.updateOne({ _id: userToUpdate.id }, userToUpdate);
 };
 
