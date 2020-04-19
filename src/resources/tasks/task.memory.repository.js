@@ -13,7 +13,6 @@ const createTask = async task => {
 };
 
 const deleteTaskById = async id => {
-  // return (await Task.deleteOne({ _id: id })).ok;
   const taskForDelete = Task.find({ _id: id });
   if (!(await taskForDelete).length) return 404;
   await Task.findByIdAndDelete(id);

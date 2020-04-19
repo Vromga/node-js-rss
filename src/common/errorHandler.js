@@ -30,5 +30,6 @@ const handleErrors = (error, req, res, next) => {
 module.exports = {
   catchError,
   notFoundError,
+  createError,
   handleErrors
 };

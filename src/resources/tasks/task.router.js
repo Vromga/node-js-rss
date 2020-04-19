@@ -1,7 +1,7 @@
 const router = require('express').Router({ mergeParams: true });
 const tasksService = require('./task.service');
 const Task = require('./task.model');
-const { catchError } = require('../../common/errorHandler');
+const { catchError, createError } = require('../../common/errorHandler');
 
 router
   .route('/')
@@ -23,13 +23,21 @@ router
 router
   .route('/:id')
   .get(
-    catchError(async (req, res) => {
-      const task = await tasksService.getTaskById(req.params.id);
-      if (!task) {
-        res.status(404).json({ message: 'Task not found' });
-      } else {
+    catchError(async (req, res, next) => {
+      try {
+        const task = await tasksService.getTaskById(req.params.id);
+        if (!task) throw new Error();
         await res.status(200).json(Task.toResponse(task));
+      } catch (e) {
+        const err = createError('Task not found', 404);
+        // eslint-disable-next-line callback-return
+        next(err);
       }
+
+      // if (!task) {
+      //   res.status(404).json({ message: 'Task not found' });
+      // } else {
+      // }
     })
   )
   .delete(
