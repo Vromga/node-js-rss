@@ -17,10 +17,6 @@ const updateBoard = async boardToUpdate => {
 };
 
 const deleteBoardById = async id => {
-  // const boardForDelete = Board.find({ _id: id });
-  // if (!(await boardForDelete).length) return 404;
-  // await Board.findByIdAndDelete(id);
-  // return 204;
   return Board.findOneAndRemove({ _id: id });
 };
 

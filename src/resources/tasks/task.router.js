@@ -33,11 +33,6 @@ router
         // eslint-disable-next-line callback-return
         next(err);
       }
-
-      // if (!task) {
-      //   res.status(404).json({ message: 'Task not found' });
-      // } else {
-      // }
     })
   )
   .delete(
