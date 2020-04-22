@@ -9,7 +9,7 @@ router
   .get(
     catchError(async (req, res) => {
       const boards = await boardsService.getAllBoards();
-      await res.status(200).json(boards);
+      await res.status(200).json(boards.map(Board.toResponse));
     })
   )
   .post(

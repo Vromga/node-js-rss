@@ -8,7 +8,7 @@ router
   .get(
     catchError(async (req, res) => {
       const tasks = await tasksService.getAllTasks();
-      await res.status(200).json(tasks);
+      await res.status(200).json(tasks.map(Task.toResponse));
     })
   )
   .post(
