@@ -14,8 +14,7 @@ router
   )
   .post(
     catchError(async (req, res) => {
-      const user = new User(req.body);
-      await usersService.createUser(user);
+      const user = await usersService.createUser(req.body);
       await res.status(200).json(User.toResponse(user));
     })
   );
@@ -31,13 +30,22 @@ router
   .delete(
     catchError(async (req, res) => {
       await tasksService.updateByUserId(req.params.id);
-      await usersService.deleteUserById(req.params.id);
-      await res.json({ message: 'User has been deleted' });
+      const statusDelete = await usersService.deleteUserById(req.params.id);
+      if (statusDelete) {
+        res.status(200).send(JSON.stringify('user delete successfully'));
+      } else {
+        res.status(400).send(JSON.stringify('user delete failed'));
+      }
     })
   )
   .put(
     catchError(async (req, res) => {
-      await usersService.updateUser(req.params.id, req.body);
+      const userToUpdate = {
+        id: req.params.id,
+        name: req.body.name,
+        login: req.body.login
+      };
+      await usersService.updateUser(userToUpdate);
       await res.json({ message: 'User has been updated' });
     })
   );

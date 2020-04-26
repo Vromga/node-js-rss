@@ -1,36 +1,29 @@
-let boards = [
-  {
-    id: '1eae84ae-3011-4b42-9822-6de2c0a2be98',
-    title: 'Product name: Lorem',
-    columns: []
-  }
-];
+const Board = require('./board.model');
 
 const getAllBoards = async () => {
-  return boards;
+  return Board.find({});
 };
 
 const getBoardsById = async id => {
-  return boards.find(board => board.id === id);
+  return Board.findOne({ _id: id });
 };
 
-const createBord = async board => {
-  boards.push(board);
+const createBoard = async board => {
+  return Board.create(board);
 };
 
-const updateBoard = async (id, body) => {
-  const index = boards.findIndex(board => board.id === id);
-  boards[index] = { ...boards[index], ...body };
+const updateBoard = async boardToUpdate => {
+  return Board.updateOne({ _id: boardToUpdate.id }, boardToUpdate);
 };
 
 const deleteBoardById = async id => {
-  boards = boards.filter(board => board.id !== id);
+  return Board.findOneAndRemove({ _id: id });
 };
 
 module.exports = {
   getAllBoards,
   getBoardsById,
-  createBord,
+  createBoard,
   deleteBoardById,
   updateBoard
 };

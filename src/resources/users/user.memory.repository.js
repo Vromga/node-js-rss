@@ -1,31 +1,23 @@
-let users = [
-  {
-    id: '9147d88a-75b6-4f4b-9071-c50cf1965b31',
-    name: 'user',
-    login: 'USER',
-    password: 'PacmanColorHouseApple'
-  }
-];
+const User = require('./user.model');
 
 const getAll = async () => {
-  return users;
+  return User.find({});
 };
 
 const getById = async id => {
-  return users.find(user => user.id === id);
+  return User.findOne({ _id: id });
 };
 
-const update = async (id, body) => {
-  const idx = users.findIndex(user => user.id === id);
-  users[idx] = { ...users[idx], ...body };
+const update = async userToUpdate => {
+  return User.updateOne({ _id: userToUpdate.id }, userToUpdate);
 };
 
 const create = async user => {
-  users.push(user);
+  return User.create(user);
 };
 
 const deleteById = async id => {
-  users = users.filter(user => user.id !== id);
+  return (await User.deleteOne({ _id: id })).ok;
 };
 
 module.exports = {
